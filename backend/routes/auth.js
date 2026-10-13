@@ -5,6 +5,30 @@ import User from '../models/User.js';
 
 const router = express.Router();
 
+// Seed Admin User (Development only)
+router.post('/seed-admin', async (req, res) => {
+  try {
+    const adminExists = await User.findOne({ username: 'andarg' });
+    
+    if (adminExists) {
+      return res.json({ message: 'Admin user already exists' });
+    }
+
+    const admin = new User({
+      username: 'andarg',
+      passwordHash: 'kira@123',
+      email: 'admin@injera.local',
+      role: 'admin',
+      isActive: true
+    });
+
+    await admin.save();
+    res.json({ message: 'Admin user created successfully', username: 'andarg', password: 'kira@123' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Login
 router.post('/login', [
   body('username').trim().notEmpty().withMessage('Username is required'),

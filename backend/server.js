@@ -17,6 +17,7 @@ import paymentRoutes from './routes/payments.js';
 import purchaseRoutes from './routes/purchases.js';
 import categoryRoutes from './routes/categories.js';
 import reportRoutes from './routes/reports.js';
+import loanRoutes from './routes/loans.js';
 
 // Import middleware
 import { authenticate } from './middleware/auth.js';
@@ -26,7 +27,7 @@ const app = express();
 // Security middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176', 'http://localhost:3000'],
   credentials: true
 }));
 
@@ -50,6 +51,7 @@ app.use('/api/payments', authenticate, paymentRoutes);
 app.use('/api/purchases', authenticate, purchaseRoutes);
 app.use('/api/categories', authenticate, categoryRoutes);
 app.use('/api/reports', authenticate, reportRoutes);
+app.use('/api/loans', authenticate, loanRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

@@ -79,27 +79,27 @@ export default function Customers() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      {/* Back Button */}
-      <button
-        onClick={() => navigate('/')}
-        className="mb-4 flex items-center gap-2 text-primary hover:text-yellow-700 font-semibold"
-      >
-        ← Back to Home
-      </button>
+      <div className="container mx-auto px-4 py-6">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate('/')}
+          className="mb-4 flex items-center gap-2 text-primary hover:text-yellow-700 font-semibold"
+        >
+          ← Back to Home
+        </button>
 
-      <h1 className="text-3xl font-bold mb-6">Customers</h1>
+      <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">Customers</h1>
 
       {error && (
-        <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div className="mb-4 p-3 md:p-4 bg-red-100 border border-red-400 text-red-700 rounded text-sm md:text-base">
           {error}
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 lg:gap-6 mb-6 md:mb-8">
         {/* Add Customer Form */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold mb-4">Add Customer</h2>
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+          <h2 className="text-lg md:text-xl font-bold mb-4">Add Customer</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -139,8 +139,8 @@ export default function Customers() {
         </div>
 
         {/* All Customers List */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold mb-4">All Customers</h2>
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+          <h2 className="text-lg md:text-xl font-bold mb-4">All Customers</h2>
           <div className="space-y-2 max-h-96 overflow-y-auto">
             {customers.map(customer => (
               <button
@@ -161,8 +161,8 @@ export default function Customers() {
 
         {/* Customer Summary */}
         {summary && (
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold mb-4">{summary.customer.name}</h2>
+          <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+            <h2 className="text-lg md:text-xl font-bold mb-4">{summary.customer.name}</h2>
             <div className="space-y-3">
               <div className="p-3 bg-blue-50 rounded">
                 <div className="text-sm text-gray-600">Total Injera Sold</div>
@@ -181,17 +181,17 @@ export default function Customers() {
 
       {/* Customer Details */}
       {summary && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {/* Sales History */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold mb-4">Sales History</h2>
+          <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+            <h2 className="text-lg md:text-xl font-bold mb-4">Sales History</h2>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-xs md:text-sm lg:text-base">
                 <thead className="bg-gray-100">
                   <tr>
-                    <th className="px-2 py-2 text-left">Date</th>
-                    <th className="px-2 py-2 text-left">Qty</th>
-                    <th className="px-2 py-2 text-left">Total</th>
+                    <th className="px-2 md:px-3 py-2 text-left">Date</th>
+                    <th className="px-2 md:px-3 py-2 text-left">Qty</th>
+                    <th className="px-2 md:px-3 py-2 text-left">Total</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -199,9 +199,9 @@ export default function Customers() {
                     const ethDate = gregorianToEthiopian(new Date(sale.date));
                     return (
                       <tr key={sale._id} className="border-t">
-                        <td className="px-2 py-2">{formatEthiopianDateTable(ethDate.year, ethDate.month, ethDate.day)}</td>
-                        <td className="px-2 py-2">{sale.quantity}</td>
-                        <td className="px-2 py-2">{sale.total.toFixed(2)}</td>
+                        <td className="px-2 md:px-3 py-2">{formatEthiopianDateTable(ethDate.year, ethDate.month, ethDate.day)}</td>
+                        <td className="px-2 md:px-3 py-2">{sale.quantity}</td>
+                        <td className="px-2 md:px-3 py-2">{sale.total.toFixed(2)}</td>
                       </tr>
                     );
                   })}
@@ -209,9 +209,9 @@ export default function Customers() {
                   {/* Total Row */}
                   {summary.sales.length > 0 && (
                     <tr className="border-t-2 border-t-gray-400 bg-gray-100 font-bold">
-                      <td className="px-2 py-2"></td>
-                      <td className="px-2 py-2 text-right">Total:</td>
-                      <td className="px-2 py-2 text-primary">
+                      <td className="px-2 md:px-3 py-2"></td>
+                      <td className="px-2 md:px-3 py-2 text-right">Total:</td>
+                      <td className="px-2 md:px-3 py-2 text-primary">
                         {summary.sales.reduce((sum, sale) => sum + sale.total, 0).toFixed(2)}
                       </td>
                     </tr>
@@ -222,15 +222,15 @@ export default function Customers() {
           </div>
 
           {/* Payment History */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold mb-4">Payment History</h2>
+          <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+            <h2 className="text-lg md:text-xl font-bold mb-4">Payment History</h2>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-xs md:text-sm lg:text-base">
                 <thead className="bg-gray-100">
                   <tr>
-                    <th className="px-2 py-2 text-left">Date</th>
-                    <th className="px-2 py-2 text-left">Amount</th>
-                    <th className="px-2 py-2 text-left">Method</th>
+                    <th className="px-2 md:px-3 py-2 text-left">Date</th>
+                    <th className="px-2 md:px-3 py-2 text-left">Amount</th>
+                    <th className="px-2 md:px-3 py-2 text-left">Method</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -238,9 +238,9 @@ export default function Customers() {
                     const ethDate = gregorianToEthiopian(new Date(payment.date));
                     return (
                       <tr key={payment._id} className="border-t">
-                        <td className="px-2 py-2">{formatEthiopianDateTable(ethDate.year, ethDate.month, ethDate.day)}</td>
-                        <td className="px-2 py-2">{payment.amount.toFixed(2)}</td>
-                        <td className="px-2 py-2">{payment.method}</td>
+                        <td className="px-2 md:px-3 py-2">{formatEthiopianDateTable(ethDate.year, ethDate.month, ethDate.day)}</td>
+                        <td className="px-2 md:px-3 py-2">{payment.amount.toFixed(2)}</td>
+                        <td className="px-2 md:px-3 py-2">{payment.method}</td>
                       </tr>
                     );
                   })}
@@ -248,11 +248,11 @@ export default function Customers() {
                   {/* Total Row */}
                   {summary.payments.length > 0 && (
                     <tr className="border-t-2 border-t-gray-400 bg-gray-100 font-bold">
-                      <td className="px-2 py-2 text-right">Total:</td>
-                      <td className="px-2 py-2 text-primary">
+                      <td className="px-2 md:px-3 py-2 text-right">Total:</td>
+                      <td className="px-2 md:px-3 py-2 text-primary">
                         {summary.payments.reduce((sum, payment) => sum + payment.amount, 0).toFixed(2)}
                       </td>
-                      <td className="px-2 py-2"></td>
+                      <td className="px-2 md:px-3 py-2"></td>
                     </tr>
                   )}
                 </tbody>

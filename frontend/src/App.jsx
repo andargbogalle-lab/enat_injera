@@ -7,7 +7,6 @@ import ProtectedRoute from './components/ProtectedRoute';
 // Pages
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Register from './pages/Register';
 import Sales from './pages/Sales';
 import Payments from './pages/Payments';
 import Purchases from './pages/Purchases';
@@ -15,6 +14,8 @@ import Customers from './pages/Customers';
 import Reports from './pages/Reports';
 import Users from './pages/Users';
 import Employees from './pages/Employees';
+import Loans from './pages/Loans';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -24,7 +25,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
           
           <Route
             path="/sales"
@@ -82,6 +82,17 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/loans"
+            element={
+              <ProtectedRoute>
+                <Loans />
+              </ProtectedRoute>
+            }
+          />
+          
+          {/* 404 Not Found - Catch all */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
     </Router>

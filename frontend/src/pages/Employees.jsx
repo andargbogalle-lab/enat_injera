@@ -377,13 +377,13 @@ export default function Employees() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      <button
-        onClick={() => navigate('/')}
-        className="mb-4 flex items-center gap-2 text-primary hover:text-yellow-700 font-semibold"
-      >
-        {translations.nav.backToHome}
-      </button>
+      <div className="container mx-auto px-4 py-6">
+        <button
+          onClick={() => navigate('/')}
+          className="mb-4 flex items-center gap-2 text-primary hover:text-yellow-700 font-semibold"
+        >
+          {translations.nav.backToHome}
+        </button>
 
       <h1 className="text-3xl font-bold mb-6">{t.title}</h1>
 

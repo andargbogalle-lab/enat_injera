@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import EthiopianDatePicker from '../components/EthiopianDatePicker';
 import { gregorianToEthiopian, formatEthiopianDateTable } from '../utils/ethiopianCalendar';
+import { formatBirr } from '../utils/formatters';
 
 // Export to CSV function
 const exportToCSV = (data, filename, columns) => {
@@ -290,24 +291,24 @@ export default function Payments() {
         ← Back to Home
       </button>
 
-      <h1 className="text-3xl font-bold mb-6">Payments</h1>
+      <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">Payments</h1>
 
       {error && (
-        <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div className="mb-4 p-3 md:p-4 bg-red-100 border border-red-400 text-red-700 rounded text-sm md:text-base">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+        <div className="mb-4 p-3 md:p-4 bg-green-100 border border-green-400 text-green-700 rounded text-sm md:text-base">
           {success}
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
         {/* Form */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold mb-4">Record Payment</h2>
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+          <h2 className="text-lg md:text-xl font-bold mb-4">Record Payment</h2>
           <form onSubmit={handleSubmit}>
             <EthiopianDatePicker
               value={formData.date}
@@ -375,8 +376,8 @@ export default function Payments() {
         </div>
 
         {/* Filter */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold mb-4">Filter</h2>
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+          <h2 className="text-lg md:text-xl font-bold mb-4">Filter</h2>
           <div className="space-y-4">
             <div>
               <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -466,35 +467,35 @@ export default function Payments() {
       {/* Payments List */}
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         {selectedPayments.size > 0 && (
-          <div className="bg-blue-50 border-b border-blue-200 px-4 py-3 flex justify-between items-center">
-            <span className="text-sm font-semibold text-gray-700">
+          <div className="bg-blue-50 border-b border-blue-200 px-3 md:px-4 py-3 flex justify-between items-center flex-wrap gap-2">
+            <span className="text-xs md:text-sm font-semibold text-gray-700">
               {selectedPayments.size} payment(s) selected
             </span>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               <button
                 onClick={clearSelection}
-                className="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 font-semibold"
+                className="px-2 md:px-3 py-1 text-xs md:text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 font-semibold"
               >
                 Clear Selection
               </button>
               <button
                 onClick={handleBulkDelete}
                 disabled={loading}
-                className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 font-semibold disabled:opacity-50"
+                className="px-2 md:px-3 py-1 text-xs md:text-sm bg-red-600 text-white rounded hover:bg-red-700 font-semibold disabled:opacity-50"
               >
-                {loading ? 'Deleting...' : `Delete Selected (${selectedPayments.size})`}
+                {loading ? 'Deleting...' : `Delete (${selectedPayments.size})`}
               </button>
             </div>
           </div>
         )}
 
-        <div className="px-4 py-3 bg-gray-50 border-b flex justify-between items-center">
-          <h3 className="font-semibold text-gray-700">Payment History</h3>
-          <div className="flex gap-2">
+        <div className="px-3 md:px-4 py-3 bg-gray-50 border-b flex justify-between items-center flex-wrap gap-2">
+          <h3 className="font-semibold text-gray-700 text-sm md:text-base">Payment History</h3>
+          <div className="flex gap-2 flex-wrap">
             <button
               onClick={handleExportPayments}
               disabled={filteredPayments.length === 0}
-              className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded font-semibold text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-3 md:px-4 py-1 md:py-2 bg-green-600 hover:bg-green-700 text-white rounded font-semibold text-xs md:text-sm disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Export to CSV
             </button>
@@ -506,7 +507,7 @@ export default function Payments() {
                   }
                 }}
                 disabled={loading}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded font-semibold text-sm disabled:opacity-50"
+                className="px-3 md:px-4 py-1 md:py-2 bg-red-600 hover:bg-red-700 text-white rounded font-semibold text-xs md:text-sm disabled:opacity-50"
               >
                 Delete All
               </button>
@@ -514,82 +515,84 @@ export default function Payments() {
           </div>
         </div>
         
-        <table className="w-full">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-4 py-2 text-left w-10">
-                <input
-                  type="checkbox"
-                  checked={selectedPayments.size === filteredPayments.length && filteredPayments.length > 0}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      const newSelected = new Set();
-                      filteredPayments.slice(0, 10).forEach(p => newSelected.add(p._id));
-                      setSelectedPayments(newSelected);
-                    } else {
-                      setSelectedPayments(new Set());
-                    }
-                  }}
-                  className="cursor-pointer"
-                />
-              </th>
-              <th className="px-4 py-2 text-left">Date</th>
-              <th className="px-4 py-2 text-left">Customer</th>
-              <th className="px-4 py-2 text-left">Amount</th>
-              <th className="px-4 py-2 text-left">Method</th>
-              <th className="px-4 py-2 text-left">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredPayments.map((payment, index) => {
-              const ethDate = gregorianToEthiopian(new Date(payment.date));
-              const isSelected = selectedPayments.has(payment._id);
-              
-              return (
-                <tr 
-                  key={payment._id} 
-                  className={`border-t ${isSelected ? 'bg-blue-50' : ''}`}
-                >
-                  <td className="px-4 py-2 w-10">
-                    <input
-                      type="checkbox"
-                      checked={isSelected}
-                      onChange={() => handleCheckboxChange(payment._id)}
-                      disabled={!isSelected && selectedPayments.size >= 10}
-                      className="cursor-pointer disabled:opacity-50"
-                    />
-                  </td>
-                  <td className="px-4 py-2">{formatEthiopianDateTable(ethDate.year, ethDate.month, ethDate.day)}</td>
-                  <td className="px-4 py-2">{payment.customer.name}</td>
-                  <td className="px-4 py-2">{payment.amount}</td>
-                  <td className="px-4 py-2">{payment.method}</td>
-                  <td className="px-4 py-2">
-                    <button
-                      onClick={() => handleDelete(payment._id)}
-                      className="text-red-600 hover:text-red-800"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-            
-            {/* Total Row */}
-            {filteredPayments.length > 0 && (
-              <tr className="border-t-2 border-t-gray-400 bg-gray-100 font-bold">
-                <td className="px-4 py-3"></td>
-                <td className="px-4 py-3"></td>
-                <td className="px-4 py-3 text-right">Total:</td>
-                <td className="px-4 py-3 text-lg text-primary">
-                  {filteredPayments.reduce((sum, payment) => sum + payment.amount, 0).toFixed(2)} ብር
-                </td>
-                <td className="px-4 py-3"></td>
-                <td className="px-4 py-3"></td>
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs md:text-sm lg:text-base">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-2 md:px-4 py-2 text-left w-8 md:w-10">
+                  <input
+                    type="checkbox"
+                    checked={selectedPayments.size === filteredPayments.length && filteredPayments.length > 0}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        const newSelected = new Set();
+                        filteredPayments.slice(0, 10).forEach(p => newSelected.add(p._id));
+                        setSelectedPayments(newSelected);
+                      } else {
+                        setSelectedPayments(new Set());
+                      }
+                    }}
+                    className="cursor-pointer"
+                  />
+                </th>
+                <th className="px-2 md:px-4 py-2 text-left">Date</th>
+                <th className="px-2 md:px-4 py-2 text-left">Customer</th>
+                <th className="px-2 md:px-4 py-2 text-left">Amount</th>
+                <th className="px-2 md:px-4 py-2 text-left">Method</th>
+                <th className="px-2 md:px-4 py-2 text-left">Action</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredPayments.map((payment, index) => {
+                const ethDate = gregorianToEthiopian(new Date(payment.date));
+                const isSelected = selectedPayments.has(payment._id);
+                
+                return (
+                  <tr 
+                    key={payment._id} 
+                    className={`border-t hover:bg-gray-50 ${isSelected ? 'bg-blue-50' : ''}`}
+                  >
+                    <td className="px-2 md:px-4 py-2 w-8 md:w-10">
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => handleCheckboxChange(payment._id)}
+                        disabled={!isSelected && selectedPayments.size >= 10}
+                        className="cursor-pointer disabled:opacity-50"
+                      />
+                    </td>
+                    <td className="px-2 md:px-4 py-2">{formatEthiopianDateTable(ethDate.year, ethDate.month, ethDate.day)}</td>
+                    <td className="px-2 md:px-4 py-2">{payment.customer.name}</td>
+                    <td className="px-2 md:px-4 py-2">{formatBirr(payment.amount)}</td>
+                    <td className="px-2 md:px-4 py-2">{payment.method}</td>
+                    <td className="px-2 md:px-4 py-2">
+                      <button
+                        onClick={() => handleDelete(payment._id)}
+                        className="text-red-600 hover:text-red-800 text-xs md:text-sm"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+              
+              {/* Total Row */}
+              {filteredPayments.length > 0 && (
+                <tr className="border-t-2 border-t-gray-400 bg-gray-100 font-bold text-xs md:text-sm lg:text-base">
+                  <td className="px-2 md:px-4 py-3"></td>
+                  <td className="px-2 md:px-4 py-3"></td>
+                  <td className="px-2 md:px-4 py-3 text-right">Total:</td>
+                  <td className="px-2 md:px-4 py-3 text-lg text-primary">
+                    {formatBirr(filteredPayments.reduce((sum, payment) => sum + payment.amount, 0))} ብር
+                  </td>
+                  <td className="px-2 md:px-4 py-3"></td>
+                  <td className="px-2 md:px-4 py-3"></td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

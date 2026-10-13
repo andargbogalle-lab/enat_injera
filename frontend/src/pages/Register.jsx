@@ -42,28 +42,28 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-3 md:px-4">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-4 md:p-6">
         {/* Back Button */}
         <button
           onClick={() => navigate('/')}
-          className="mb-4 flex items-center gap-2 text-primary hover:text-yellow-700 font-semibold"
+          className="mb-4 flex items-center gap-2 text-primary hover:text-yellow-700 font-semibold text-sm md:text-base"
         >
           ← Back
         </button>
 
         {/* Logo */}
         <div className="flex justify-center mb-6">
-          <img src="/mom.png" alt="እናት እንጀራ Logo" className="h-24 w-24" />
+          <img src="/mom.png" alt="እናት እንጀራ Logo" className="h-20 md:h-24 w-20 md:w-24" />
         </div>
 
-        <h1 className="text-3xl font-bold text-center mb-2 text-primary">
+        <h1 className="text-2xl md:text-3xl font-bold text-center mb-2 text-primary">
           እናት እንጀራ
         </h1>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Register</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 text-center">Register</h2>
 
         {error && (
-          <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+          <div className="mb-4 p-3 md:p-4 bg-red-100 border border-red-400 text-red-700 rounded text-sm md:text-base">
             {error}
           </div>
         )}
@@ -135,13 +135,13 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50 transition"
+            className="w-full bg-primary hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50 transition text-sm md:text-base"
           >
             {loading ? 'Registering...' : 'Register'}
           </button>
         </form>
 
-        <p className="text-center mt-4 text-gray-600">
+        <p className="text-center mt-4 text-sm md:text-base text-gray-600">
           Already have an account?{' '}
           <Link to="/login" className="text-primary hover:underline font-bold">
             Login

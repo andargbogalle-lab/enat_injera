@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import EthiopianDatePicker from '../components/EthiopianDatePicker';
 import { gregorianToEthiopian, formatEthiopianDateTable } from '../utils/ethiopianCalendar';
+import { formatBirr } from '../utils/formatters';
 
 export default function Sales() {
   const navigate = useNavigate();
@@ -142,24 +143,24 @@ export default function Sales() {
         ← Back to Home
       </button>
 
-      <h1 className="text-3xl font-bold mb-6">Sales</h1>
+      <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">Sales</h1>
 
       {error && (
-        <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div className="mb-4 p-3 md:p-4 bg-red-100 border border-red-400 text-red-700 rounded text-sm md:text-base">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+        <div className="mb-4 p-3 md:p-4 bg-green-100 border border-green-400 text-green-700 rounded text-sm md:text-base">
           {success}
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
         {/* Form */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold mb-4">Record Sale</h2>
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+          <h2 className="text-lg md:text-xl font-bold mb-4">Record Sale</h2>
           <form onSubmit={handleSubmit}>
             <EthiopianDatePicker
               value={formData.date}
@@ -226,8 +227,8 @@ export default function Sales() {
         </div>
 
         {/* Filter */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold mb-4">Filter</h2>
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+          <h2 className="text-lg md:text-xl font-bold mb-4">Filter</h2>
           <div className="space-y-4">
             <div>
               <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -270,40 +271,42 @@ export default function Sales() {
 
       {/* Sales List */}
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-4 py-2 text-left">Date</th>
-              <th className="px-4 py-2 text-left">Customer</th>
-              <th className="px-4 py-2 text-left">Quantity</th>
-              <th className="px-4 py-2 text-left">Unit Price</th>
-              <th className="px-4 py-2 text-left">Total</th>
-              <th className="px-4 py-2 text-left">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredSales.map(sale => {
-              const ethDate = gregorianToEthiopian(new Date(sale.date));
-              return (
-                <tr key={sale._id} className="border-t">
-                  <td className="px-4 py-2">{formatEthiopianDateTable(ethDate.year, ethDate.month, ethDate.day)}</td>
-                  <td className="px-4 py-2">{sale.customer.name}</td>
-                  <td className="px-4 py-2">{sale.quantity}</td>
-                  <td className="px-4 py-2">{sale.unitPrice}</td>
-                  <td className="px-4 py-2 font-bold">{sale.total}</td>
-                  <td className="px-4 py-2">
-                    <button
-                      onClick={() => handleDelete(sale._id)}
-                      className="text-red-600 hover:text-red-800"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs md:text-sm lg:text-base">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-2 md:px-4 py-2 text-left">Date</th>
+                <th className="px-2 md:px-4 py-2 text-left">Customer</th>
+                <th className="px-2 md:px-4 py-2 text-left">Quantity</th>
+                <th className="px-2 md:px-4 py-2 text-left">Unit Price</th>
+                <th className="px-2 md:px-4 py-2 text-left">Total</th>
+                <th className="px-2 md:px-4 py-2 text-left">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredSales.map(sale => {
+                const ethDate = gregorianToEthiopian(new Date(sale.date));
+                return (
+                  <tr key={sale._id} className="border-t hover:bg-gray-50">
+                    <td className="px-2 md:px-4 py-2">{formatEthiopianDateTable(ethDate.year, ethDate.month, ethDate.day)}</td>
+                    <td className="px-2 md:px-4 py-2">{sale.customer.name}</td>
+                    <td className="px-2 md:px-4 py-2">{sale.quantity}</td>
+                    <td className="px-2 md:px-4 py-2">{formatBirr(sale.unitPrice)}</td>
+                    <td className="px-2 md:px-4 py-2 font-bold">{formatBirr(sale.total)}</td>
+                    <td className="px-2 md:px-4 py-2">
+                      <button
+                        onClick={() => handleDelete(sale._id)}
+                        className="text-red-600 hover:text-red-800 text-xs md:text-sm"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

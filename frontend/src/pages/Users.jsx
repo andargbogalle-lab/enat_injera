@@ -63,32 +63,32 @@ export default function Users() {
 
   return (
     <div className="container mx-auto px-4 py-6">
-      {/* Back Button */}
-      <button
-        onClick={() => navigate('/')}
-        className="mb-4 flex items-center gap-2 text-primary hover:text-yellow-700 font-semibold"
-      >
-        ← Back to Home
-      </button>
+        {/* Back Button */}
+        <button
+          onClick={() => navigate('/')}
+          className="mb-4 flex items-center gap-2 text-primary hover:text-yellow-700 font-semibold"
+        >
+          ← Back to Home
+        </button>
 
-      <h1 className="text-3xl font-bold mb-6">User Management</h1>
+      <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">User Management</h1>
 
       {error && (
-        <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div className="mb-4 p-3 md:p-4 bg-red-100 border border-red-400 text-red-700 rounded text-sm md:text-base">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+        <div className="mb-4 p-3 md:p-4 bg-green-100 border border-green-400 text-green-700 rounded text-sm md:text-base">
           {success}
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
         {/* Add User Form */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold mb-4">Add New User</h2>
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+          <h2 className="text-lg md:text-xl font-bold mb-4">Add New User</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -159,8 +159,8 @@ export default function Users() {
         </div>
 
         {/* Users Stats */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold mb-4">User Statistics</h2>
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+          <h2 className="text-lg md:text-xl font-bold mb-4">User Statistics</h2>
           <div className="space-y-4">
             <div className="p-4 bg-blue-50 rounded">
               <p className="text-gray-600">Total Users</p>
@@ -184,26 +184,26 @@ export default function Users() {
 
       {/* Users Table */}
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <h2 className="text-xl font-bold p-6 border-b">All Users</h2>
+        <h2 className="text-lg md:text-xl font-bold p-4 md:p-6 border-b">All Users</h2>
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full text-xs md:text-sm lg:text-base">
             <thead className="bg-gray-100">
               <tr>
-                <th className="px-4 py-2 text-left">Username</th>
-                <th className="px-4 py-2 text-left">Email</th>
-                <th className="px-4 py-2 text-left">Role</th>
-                <th className="px-4 py-2 text-left">Status</th>
-                <th className="px-4 py-2 text-left">Created</th>
-                <th className="px-4 py-2 text-left">Action</th>
+                <th className="px-2 md:px-4 py-2 text-left">Username</th>
+                <th className="px-2 md:px-4 py-2 text-left">Email</th>
+                <th className="px-2 md:px-4 py-2 text-left">Role</th>
+                <th className="px-2 md:px-4 py-2 text-left">Status</th>
+                <th className="px-2 md:px-4 py-2 text-left">Created</th>
+                <th className="px-2 md:px-4 py-2 text-left">Action</th>
               </tr>
             </thead>
             <tbody>
               {users.map(user => (
                 <tr key={user._id} className="border-t hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium">{user.username}</td>
-                  <td className="px-4 py-3">{user.email || '-'}</td>
-                  <td className="px-4 py-3">
-                    <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                  <td className="px-2 md:px-4 py-3 font-medium text-xs md:text-base">{user.username}</td>
+                  <td className="px-2 md:px-4 py-3">{user.email || '-'}</td>
+                  <td className="px-2 md:px-4 py-3">
+                    <span className={`px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-semibold ${
                       user.role === 'admin' 
                         ? 'bg-purple-100 text-purple-800' 
                         : 'bg-blue-100 text-blue-800'
@@ -211,8 +211,8 @@ export default function Users() {
                       {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
                     </span>
                   </td>
-                  <td className="px-4 py-3">
-                    <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                  <td className="px-2 md:px-4 py-3">
+                    <span className={`px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-semibold ${
                       user.isActive
                         ? 'bg-green-100 text-green-800'
                         : 'bg-red-100 text-red-800'
@@ -220,13 +220,13 @@ export default function Users() {
                       {user.isActive ? 'Active' : 'Inactive'}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-600">
+                  <td className="px-2 md:px-4 py-3 text-xs md:text-sm text-gray-600">
                     {new Date(user.createdAt).toLocaleDateString()}
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-2 md:px-4 py-3">
                     <button
                       onClick={() => handleToggleActive(user._id, user.isActive)}
-                      className={`text-sm font-medium px-3 py-1 rounded ${
+                      className={`text-xs md:text-sm font-medium px-2 md:px-3 py-1 rounded ${
                         user.isActive
                           ? 'bg-red-100 text-red-700 hover:bg-red-200'
                           : 'bg-green-100 text-green-700 hover:bg-green-200'
