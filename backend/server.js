@@ -33,7 +33,7 @@ const corsOptions = {
     'http://localhost:5176',
     'http://localhost:3000',
     'https://enat-injera.vercel.app',
-    'https://enat-injera-eqq6.vercel.app',
+    'https://enat-injera-eqg.vercel.app',
     process.env.CLIENT_URL
   ],
   credentials: true,
