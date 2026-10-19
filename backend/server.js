@@ -24,9 +24,8 @@ import { authenticate } from './middleware/auth.js';
 
 const app = express();
 
-// Security middleware
-app.use(helmet());
-app.use(cors({
+// CORS configuration
+const corsOptions = {
   origin: [
     'http://localhost:5173',
     'http://localhost:5174',
@@ -37,8 +36,19 @@ app.use(cors({
     'https://enat-injera-eqq6.vercel.app',
     process.env.CLIENT_URL
   ],
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+// Security middleware
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' }
 }));
+app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
 
 // Rate limiting for login
 const loginLimiter = rateLimit({
@@ -50,6 +60,12 @@ const loginLimiter = rateLimit({
 // Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Logging middleware
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  next();
+});
 
 // Routes
 app.use('/api/auth', loginLimiter, authRoutes);
@@ -64,17 +80,22 @@ app.use('/api/loans', authenticate, loanRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
-  res.json({ status: 'OK' });
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({ message: 'Enat Injera API Server', version: '1.0.0' });
 });
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+  res.status(404).json({ error: 'Route not found', path: req.path });
 });
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('[ERROR]', err);
   res.status(err.status || 500).json({
     error: err.message || 'Internal server error'
   });
@@ -86,11 +107,11 @@ let mongooseConnected = false;
 if (!mongooseConnected && process.env.MONGODB_URI) {
   mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
-      console.log('Connected to MongoDB');
+      console.log('[INFO] Connected to MongoDB');
       mongooseConnected = true;
     })
     .catch(err => {
-      console.error('MongoDB connection error:', err);
+      console.error('[ERROR] MongoDB connection error:', err);
     });
 }
 
@@ -98,7 +119,7 @@ if (!mongooseConnected && process.env.MONGODB_URI) {
 if (process.env.NODE_ENV !== 'production') {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`[INFO] Server running on port ${PORT}`);
   });
 }
 
